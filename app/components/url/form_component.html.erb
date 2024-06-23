@@ -1,0 +1,13 @@
+<div class="relative flex w-full mx-auto max-w-[24rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md mt-8">
+  <%= render Url::HeaderComponent.new(title: 'Create your TinyURL') %>
+  <div class="p-6">
+    <%= form_with model: @url,
+                  html: { class: 'flex flex-col gap-4' },
+                  data: { controller: 'form', action: 'input->form#handleInput' } do |form|
+    %>
+      <%= render Shared::Input::TextComponent.new(form: form, field: :long_url, label: 'Long Url', data_target: 'form.input') %>
+      <%= render Shared::Input::TextComponent.new(form: form, field: :token, label: '(Optional) Custom Alias') %>
+      <%= render Shared::Input::SubmitComponent.new(form: form, data_target: 'form.submit') %>
+    <% end %>
+  </div>
+</div>

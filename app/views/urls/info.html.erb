@@ -1,0 +1,4 @@
+<%= render Url::CardComponent.new(url: @url) %>
+<%= render Shared::List::ListComponent.new(title: 'Visits from IPs') do %>
+  <%= render Url::List::ItemComponent.with_collection(@url.visits) %>
+<% end %>

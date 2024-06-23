@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: tiny_url_development
+
+test:
+  <<: *default
+  database: tiny_url_test
+production:
+  <<: *default
+  database: tiny_url_production
+  username: tiny_url
+  password: <%= ENV["TINY_URL_DATABASE_PASSWORD"] %>
