@@ -1,15 +1,14 @@
-<div class="relative flex flex-col mx-auto mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96">
-  <%= render Url::HeaderComponent.new(title: 'TinyURL created!') %>
+<div class="relative flex flex-col mx-auto mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl <%= @size_classes %>">
+  <%= render Url::HeaderComponent.new(title: @title) %>
   <div class="p-6">
-    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-      Long Url: <span><%= @url.long_url %></span>
-    </h5>
-    <p class="block font-sans text-base antialiased font-light leading-relaxed text-inherit text-base">
-      Short Url: <%= @url.shorten_url %>
-    </p>
+    <%= content %>
   </div>
-  <div class="p-6 pt-0">
-    <%= render Shared::LinkComponent.new(text: 'Visit URL', href: url_path(@url.token), target: :_blank, kind: :secondary) %>
-    <%= render Shared::LinkComponent.new(text: 'Create another Url', href: root_path) %>
+  <div class="p-6 pt-0 mx-auto">
+    <%= render Shared::LinkComponent.new(text: 'Visit URL', href: url_path(@url.token), target: :_blank) %>
+    <% if links? %>
+      <% links.each do |link| %>
+        <%= link %>
+      <% end %>
+    <% end %>
   </div>
 </div>

@@ -31,6 +31,7 @@ class Visit < ApplicationRecord
   end
 
   # Slower than Visit.increment_counter, but faster if we have to do url.touch
+  # Two calls to the cache here
   def sync_counter
     return if cached_counter == 0
 
