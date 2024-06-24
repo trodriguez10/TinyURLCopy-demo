@@ -3,13 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe Url::FormComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'renders the create Url form' do
+    url = create(:url)
+    render_inline(Url::FormComponent.new(url:))
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+    expect(page).to have_text('Create your TinyURL')
+    expect(page).to have_text('Long Url')
+    expect(page).to have_text('(Optional) Custom Alias')
+    expect(page).to have_selector("input[name='url[long_url]']")
+    expect(page).to have_selector("input[name='url[token]']")
+  end
 end

@@ -8,5 +8,6 @@ class CreateUrls < ActiveRecord::Migration[7.1]
     end
 
     add_index :urls, :token, unique: true
+    add_index :urls, :long_url, unique: true
   end
 end

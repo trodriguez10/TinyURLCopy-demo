@@ -10,9 +10,12 @@
 #
 # Indexes
 #
-#  index_urls_on_token  (token) UNIQUE
+#  index_urls_on_long_url  (long_url) UNIQUE
+#  index_urls_on_token     (token) UNIQUE
 #
 FactoryBot.define do
   factory :url do
+    long_url { Faker::Internet.url }
+    token { Faker::Number.number(digits: 7) }
   end
 end

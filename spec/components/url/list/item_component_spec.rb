@@ -3,13 +3,29 @@
 require 'rails_helper'
 
 RSpec.describe Url::List::ItemComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'renders the List::Item::Component the view attached to a URL' do
+    url = create(:url)
+    visit = create(:visit, url:)
+    visit2 = create(:visit, counter: 9999)
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+    render_inline(Url::List::ItemComponent.with_collection(url.visits))
+
+    expect(page).to have_text("Remote IP: #{visit.remote_ip}")
+    expect(page).not_to have_text("Remote IP: #{visit2.remote_ip}")
+    expect(page).to have_text(visit.counter)
+    expect(page).not_to have_text(visit2.counter)
+  end
+
+  it 'renders the List::Item::Component for all views' do
+    url = create(:url)
+    visit = create(:visit, url:)
+    visit2 = create(:visit, url:, counter: 9999)
+
+    render_inline(Url::List::ItemComponent.with_collection(url.visits))
+
+    expect(page).to have_text("Remote IP: #{visit.remote_ip}")
+    expect(page).to have_text("Remote IP: #{visit2.remote_ip}")
+    expect(page).to have_text(visit.counter)
+    expect(page).to have_text(visit2.counter)
+  end
 end

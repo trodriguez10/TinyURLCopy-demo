@@ -3,13 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Url::HeaderComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'renders the title' do
+    render_inline(Url::HeaderComponent.new(title: 'Header Title'))
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+    expect(page).to have_text('Create your TinyURL')
+  end
 end

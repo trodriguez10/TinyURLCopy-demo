@@ -3,13 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Shared::Input::TextComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'renders the TextComponent' do
+    render_inline(Shared::Input::TextComponent.new(title: 'TinyURL Lidast'))
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+    expect(page).to have_text('TinyURL List')
+  end
 end

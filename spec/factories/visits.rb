@@ -11,14 +11,17 @@
 #
 # Indexes
 #
-#  index_visits_on_remote_ip  (remote_ip)
-#  index_visits_on_url_id     (url_id)
+#  index_visits_on_remote_ip_and_url_id  (remote_ip,url_id) UNIQUE
+#  index_visits_on_url_id                (url_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (url_id => urls.id)
+#  fk_rails_...  (url_id => urls.id) ON DELETE => cascade
 #
 FactoryBot.define do
   factory :visit do
+    remote_ip { Faker::Internet.ip_v4_address }
+    counter { 0 }
+    url
   end
 end

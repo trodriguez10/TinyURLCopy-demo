@@ -3,13 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe Url::CardComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'renders the Card Component with...' do
+    url = create(:url)
+    render_inline(Url::CardComponent.new(url:))
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+    expect(page).to have_text('TinyURL created!')
+    expect(page).to have_text(url.long_url)
+    expect(page).to have_text(url.shorten_url)
+  end
 end
