@@ -15,8 +15,8 @@ class UrlsController < ApplicationController
   end
 
   def create
-    result = UrlCreator.call(url_params:)
-    @component = build_component(result)
+    @result = UrlCreator.call(url_params:)
+    @url = @result.url
   end
 
   # If we have an user system, we could automatically Sync all the information
@@ -31,11 +31,6 @@ class UrlsController < ApplicationController
 
     UrlViewsSyncJob.perform_sync(@url.visits.pluck(:id))
     @url.reload
-  end
-
-  def build_component(result)
-    component_class = result.success? ? Url::CardComponent : Url::FormComponent
-    component_class.new(url: result.url)
   end
 
   def set_url
