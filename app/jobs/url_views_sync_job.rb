@@ -12,7 +12,7 @@ class UrlViewsSyncJob
   def visits_to_sync(visits)
     return Visit.where(id: visits) if visits.present?
 
-    Visit.all
+    Visit
   end
 
   # Clean cache?
