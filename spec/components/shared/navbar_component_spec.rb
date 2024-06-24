@@ -3,13 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Shared::NavbarComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it 'renders the NavbarComponent' do
+    render_inline(Shared::NavbarComponent.new)
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+    expect(page).to have_text('TinyURL')
+  end
 end

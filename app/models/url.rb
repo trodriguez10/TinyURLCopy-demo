@@ -10,12 +10,14 @@
 #
 # Indexes
 #
-#  index_urls_on_token  (token) UNIQUE
+#  index_urls_on_long_url  (long_url) UNIQUE
+#  index_urls_on_token     (token) UNIQUE
 #
 class Url < ApplicationRecord
   has_many :visits, dependent: :destroy
 
   validates :long_url, presence: true,
+                       uniqueness: true,
                        format: {
                          with: %r{\A(http|https)://[^\s$.?#].[^\s]*\z}i,
                          message: 'must be a valid URL'
@@ -23,9 +25,10 @@ class Url < ApplicationRecord
   validates :token, presence: true, uniqueness: true, length: { minimum: 7 }
 
   def shorten_url
-    token.to_s
+    "#{Rails.application.credentials.base_url}/#{token}"
   end
 
+  # Could be used as a parameter to save this Url as the top 20% visited
   def visits_count
     visits.sum(:counter)
   end

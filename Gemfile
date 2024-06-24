@@ -31,6 +31,7 @@ gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
 gem 'redis'
+gem 'redis-namespace'
 
 gem 'tzinfo-data', platforms: %i[windows jruby]
 
@@ -39,12 +40,14 @@ gem 'bootsnap', require: false
 
 gem 'base62-rb'
 gem 'sidekiq'
+gem 'sidekiq-scheduler'
 gem 'solidservice'
 gem 'view_component'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows]
+  gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'pry'

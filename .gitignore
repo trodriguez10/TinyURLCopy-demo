@@ -39,3 +39,6 @@
 
 /db/schema.rb
 /node_modules
+
+/config/credentials/development.key
+/dump.rdb
