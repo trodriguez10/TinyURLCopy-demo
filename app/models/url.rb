@@ -24,7 +24,7 @@ class Url < ApplicationRecord
                        }
   validates :token, presence: true, uniqueness: true, length: { minimum: 7 }
 
-  def shorten_url
+  def short_url
     "#{Rails.application.credentials.base_url}/#{token}"
   end
 

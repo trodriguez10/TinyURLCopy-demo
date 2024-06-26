@@ -33,7 +33,7 @@ Rails.application.configure do
     config.cache_store = :redis_cache_store, {
       url: Rails.application.credentials.redis_url || 'redis://localhost:6379/0',
       namespace: 'tiny_url_cache',
-      expires_in: 24.hours,
+      expires_in: 24.hours
     }
   end
 

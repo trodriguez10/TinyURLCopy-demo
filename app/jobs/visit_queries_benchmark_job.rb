@@ -7,10 +7,10 @@ class VisitQueriesBenchmarkJob
 
   def perform
     # Replicated records break the job
-    url = Url.create(long_url: 'http://dummy.com', token: 123456789)
-    visit = Visit.create(counter: 0, remote_ip: '127.0.0.1', url: url)
+    url = Url.create(long_url: 'http://dummy.com', token: 123_456_789)
+    visit = Visit.create(counter: 0, remote_ip: '127.0.0.1', url:)
 
-    $redis.set("visit:#{visit.id}:counter", 1)
+    Rails.cache.write("visit:#{visit.id}:counter", 1)
 
     Benchmark.bm do |x|
       x.report('increment! method:') do
@@ -30,19 +30,18 @@ class VisitQueriesBenchmarkJob
   private
 
   def test_increment_bang(visit)
-    visit.increment!(:counter, $redis.get("visit:#{visit.id}:counter").to_i)
-    $redis.set("visit:#{visit.id}:counter", 0)
+    visit.increment!(:counter, Rails.cache.read("visit:#{visit.id}:counter").to_i)
+    Rails.cache.write("visit:#{visit.id}:counter", 0)
   end
 
   def test_increment_counter_touch(visit)
-    Visit.increment_counter(:counter, visit.id, by: $redis.get("visit:#{visit.id}:counter").to_i)
+    Visit.increment_counter(:counter, visit.id, by: Rails.cache.read("visit:#{visit.id}:counter").to_i)
     visit.url.touch
-    $redis.set("visit:#{visit.id}:counter", 0)
+    Rails.cache.write("visit:#{visit.id}:counter", 0)
   end
 
   def test_increment_counter_without_touch(visit)
-    Visit.increment_counter(:counter, visit.id, by: $redis.get("visit:#{visit.id}:counter").to_i)
-    $redis.set("visit:#{visit.id}:counter", 0)
+    Visit.increment_counter(:counter, visit.id, by: Rails.cache.read("visit:#{visit.id}:counter").to_i)
+    Rails.cache.write("visit:#{visit.id}:counter", 0)
   end
 end
-

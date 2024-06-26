@@ -1,0 +1,5 @@
+<%= helpers.turbo_stream_from 'visit_counter' %>
+
+<span id="visit_<%= @visit.id %>_counter">
+  <%= @visit.total_counter %>
+</span>
