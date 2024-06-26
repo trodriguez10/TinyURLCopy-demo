@@ -26,17 +26,28 @@ class Visit < ApplicationRecord
 
   after_create :initialize_counter_cache
 
+  after_create_commit -> {
+    broadcast_prepend_to "visits_url_#{url.id}",
+    html: render_component(Url::List::ItemComponent),
+    target: 'visits_list'
+  }
+
   def increment_visit_counter
     Rails.cache.increment("visit:#{id}:counter")
+    broadcast_counter
   end
 
   # Slower than Visit.increment_counter, but faster if we have to do url.touch
   # Two calls to the cache here
   def sync_counter
-    return if cached_counter == 0
+    return if cached_counter.zero?
 
     increment!(:counter, cached_counter)
     initialize_counter_cache
+  end
+
+  def total_counter
+    counter + cached_counter
   end
 
   private
@@ -49,10 +60,23 @@ class Visit < ApplicationRecord
     Rails.cache.read("visit:#{id}:counter", raw: true).to_i
   end
 
+  def broadcast_counter
+    # Broadcast update later to
+    Turbo::StreamsChannel.broadcast_update_to(
+      'visit_counter',
+      target: "visit_#{id}_counter",
+      html: render_component(Url::VisitCounterComponent)
+    )
+  end
+
+  def render_component(component_class)
+    component_class.new(visit: self).render_in(ApplicationController.new.view_context)
+  end
+
   # This aproach doesn't load the Visit ActiveRecord object but needs to touch the Url
   # def sync_counter
-    # Visit.increment_counter(:counter, id, by: $redis.get("visit:#{id}:counter").to_i)
-    # $redis.set("visit:#{id}:counter", 0)
-    # url.touch
+  # Visit.increment_counter(:counter, id, by: $redis.get("visit:#{id}:counter").to_i)
+  # $redis.set("visit:#{id}:counter", 0)
+  # url.touch
   # end
 end

@@ -57,6 +57,9 @@ Metrics/ParameterLists:
 Metrics/PerceivedComplexity:
   Max: 12
 
+Style/ClassAndModuleChildren:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false
 

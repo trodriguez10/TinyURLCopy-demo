@@ -1,8 +1,11 @@
 class VisitsHandler < SolidService::Base
   def call
-    visit.increment_visit_counter and return success! if visit.present?
+    # visit.increment_visit_counter and return success! if visit.present?
+    # create_visit and return success!
 
-    create_visit and return success!
+    visit.present? ? visit.increment_visit_counter : create_visit
+
+    success!
   end
 
   private

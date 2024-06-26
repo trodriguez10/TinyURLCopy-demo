@@ -3,10 +3,13 @@
     Long Url: <span><%= @url.long_url %></span>
   </h5>
   <p class="block font-sans text-base antialiased font-light leading-relaxed text-inherit text-base">
-    Short Url: <%= @url.shorten_url %>
+    Short Url: <%= @url.short_url %>
   </p>
 <% end %>
 
 <%= render Shared::List::ListComponent.new(title: 'Visits from IPs') do %>
-  <%= render Url::List::ItemComponent.with_collection(@url.visits) %>
+  <%= turbo_stream_from "visits_url_#{@url.id}" %>
+  <div id="visits_list">
+    <%= render Url::List::ItemComponent.with_collection(@url.visits) %>
+  </div>
 <% end %>

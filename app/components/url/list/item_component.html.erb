@@ -5,8 +5,8 @@
   <div class="grid ml-auto place-items-center justify-self-end">
     <div
       class="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-gray-900 uppercase rounded-full select-none whitespace-nowrap bg-gray-900/10 group-hover:bg-white/20 group-hover:text-white"
-    >
-      <span class=""><%= @visit.counter %></span>
+      >
+      <%= render Url::VisitCounterComponent.new(visit: @visit) %>
     </div>
   </div>
 </div>

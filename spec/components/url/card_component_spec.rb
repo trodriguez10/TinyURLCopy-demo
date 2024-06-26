@@ -9,6 +9,6 @@ RSpec.describe Url::CardComponent, type: :component do
 
     expect(page).to have_text('TinyURL created!')
     expect(page).to have_text(url.long_url)
-    expect(page).to have_text(url.shorten_url)
+    expect(page).to have_text(url.short_url)
   end
 end
